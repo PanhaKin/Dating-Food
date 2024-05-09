@@ -3,16 +3,24 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class CardView extends StatelessWidget {
-  CardView({super.key});
-  double price = 3.5;
+  CardView(
+      {super.key,
+      required this.onTap,
+      required this.price,
+      required this.image,
+      required this.name});
+  double price;
+  String image;
+  String name;
+  void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-      height: width / 2.3,
-      width: width / 2.3,
+      height: width / 2,
+      width: width / 2,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -32,11 +40,12 @@ class CardView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: width / 3.5,
-                width: width / 3.5,
-                decoration: const BoxDecoration(
+                height: width / 4,
+                width: width / 4,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage("assets/images/main-food.png"),
+                    image: NetworkImage(image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -44,10 +53,10 @@ class CardView extends StatelessWidget {
               Text(
                 "\$$price",
                 style: const TextStyle(
-                  color: Color(0xfffe813a),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Color(0xfffe813a),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible),
               ),
             ],
           ),
@@ -55,25 +64,34 @@ class CardView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Rice Recipe\nwith Pork",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                height: 50,
+                width: 110,
+                decoration: const BoxDecoration(),
+                child: Text(
+                  name,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              Container(
-                height: width / 14,
-                width: width / 14,
-                decoration: const BoxDecoration(
-                    color: Color(0xfffe813a),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: const Center(
-                    child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                )),
+              InkWell(
+                onTap: onTap,
+                child: Container(
+                  height: width / 14,
+                  width: width / 14,
+                  decoration: const BoxDecoration(
+                      color: Color(0xfffe813a),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: const Center(
+                      child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  )),
+                ),
               )
             ],
           ),
